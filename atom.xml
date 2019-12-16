@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Christian&#39;s blog</title>
+  
+  
+  <link href="/blog/atom.xml" rel="self"/>
+  
+  <link href="https://chrisjwelly.github.io/blog/"/>
+  <updated>2019-12-16T14:16:12.867Z</updated>
+  <id>https://chrisjwelly.github.io/blog/</id>
+  
+  <author>
+    <name>Christian James Welly</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>(The true) Hello, World!</title>
+    <link href="https://chrisjwelly.github.io/blog/2019/12/04/The-true-Hello-World/"/>
+    <id>https://chrisjwelly.github.io/blog/2019/12/04/The-true-Hello-World/</id>
+    <published>2019-12-04T13:53:57.000Z</published>
+    <updated>2019-12-16T14:16:12.867Z</updated>
+    
+    <content type="html"><![CDATA[<p>Since by default, Hexo generates a hello world post, this shall be the true hello world from me. </p><p>So, Hello World! My name is Christian and I am currently a Year 2 Computer Science undergraduate at National University of Singapore. Actually, I just sat for the last paper of this semester (Year 2 Sem 1) this morning! </p><p>I am still getting used to the Hexo framework, so I shall leave this post as it is first and try to mess around first!</p><p>Update (13 Dec 2019): Still did not manage to get used to deployment, but I think I will resume my initial post. I do hope that the actual website will tell me when this post is last updated, but I included the time stamp just in case.</p><p>So perhaps let’s start a little bit about my motivation for blogging. I got this idea closer to the end of the semester (which was around 3 weeks ago?) when I was reading about this <a href="http://sijinjoseph.com/programmer-competency-matrix/" target="_blank" rel="noopener">programmer competency matrix</a>. There, it is said that the highest level for the ‘blog’ category is when one maintains a personal blog of insights and thoughts. It did make me reflect on some things: throughout my ~1.5 years of CS, I have learnt so much and along the way I found things which worked for me and some which didn’t. There were some “aha!” moments, and what better way than to share it with others? </p><p>Another reason is also because I do enjoy writing and documenting my thoughts. I used to maintain a personal diary for travel purposes to remember and relive the moment. But making an entry during my travels became quite hard due to the fact that I only have so little time at the end of a day and not to mention the fatigue as well. I stopped eventually. Perhaps blogging which is more on typing would be more sustainable, although the nature of my diary and my blog seems pretty different. Which brings me to my next point:</p><p>What kind of content will I be including in my blog? I honestly do not know. I envisioned it to be more of my journey as a CS student. I definitely want to include my experiences with frameworks. I may want to include other non-CS related things as well, for variety purposes. I’m contemplating if I want to include module reviews and all, but I’m not sure. Most likely not, but we’ll see!</p><p>The blogging style is something that I have yet to establish as well. I think I want to make it more free-flow where I just pen (or type down, rather) my thoughts. For more serious/educational posts, I may make it more formal. Otherwise, I think I’ll keep it light-hearted. </p><p>Enjoy my blog!</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;Since by default, Hexo generates a hello world post, this shall be the true hello world from me. &lt;/p&gt;
+&lt;p&gt;So, Hello World! My name is Chri
+      
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Hello World</title>
+    <link href="https://chrisjwelly.github.io/blog/2019/12/04/hello-world/"/>
+    <id>https://chrisjwelly.github.io/blog/2019/12/04/hello-world/</id>
+    <published>2019-12-04T13:05:15.343Z</published>
+    <updated>2019-12-04T13:05:15.343Z</updated>
+    
+    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$ hexo server</span></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$ hexo generate</span></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.
+      
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+</feed>

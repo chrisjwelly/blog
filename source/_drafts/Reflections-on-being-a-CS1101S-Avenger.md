@@ -2,11 +2,8 @@
 title: Reflections on being a CS1101S Avenger
 tags: teaching, CS1101S, university
 ---
-<!--toc-->
 
-{% alert danger no-icon %}
 Heads up, a very long post ahead!
-{% endalert %}
 
 ## Introduction
 In NUS, [CS1101S Programming Methodology](https://www.comp.nus.edu.sg/~cs1101s/) is the introductory course to programming for CS Freshmen. It uses the [Structure and Interpretation of Computer Programs](https://en.wikipedia.org/wiki/Structure_and_Interpretation_of_Computer_Programs) textbook, which is adapted to JavaScript (it was recently actually [announced](https://news.ycombinator.com/item?id=21779397) that the adaptation is going public!). The course itself is actually taught by using a subset of JavaScript called Source, written and developed by the teaching team together with some students. I am aware that there are many undesirable things in JS, and Source aims to mitigate that by "providing the good parts". That way, freshmen can still learn fundamentals of programming without having to learn the intricacies of the actual JS. 
@@ -24,7 +21,6 @@ This post will *not* be a review of the module, but rather a reflection on my ex
 <hr>
 <sup>1</sup> A tutorial class in CS1101S is called a 'Studio'. For readers who are not from CS1101S background, I will try to stick to the term 'tutorial' in this blog.
 <hr>
-<!--more-->
 
 ## Motivation
 Let's start by talking about why I decided to take up the role.
@@ -38,6 +34,7 @@ I do really enjoy teaching and sharing my knowledge with others. It brings me so
 Fast forward to the next semester, I applied and prepared hard for the interview. Truthfully, it felt like it was such a long time since I wanted something really badly. I practised teaching using a whiteboard so hard, that I actually strained my arm a few days before my interview! I found it painful to lift up my arms. I was pretty worried, but fortunately the interview went well. I was fully ready to support my right arm with my non-dominant left hand throughout the interview, but somehow my arm didn't give up on me and could support itself.
 
 Spoiler alert, I was offered the role! I was really thrilled, and looked forward to the experience!
+<!--more-->
 
 ## SWS3012 and being Avenger Mentor
 Proceeding chronologically, what happened next was SWS3012. I happened to be relatively free during the summer period, and I thought that before going full-swing into teaching in the semester, why not give myself an exposure?
@@ -148,48 +145,44 @@ I definitely understood Meta-Circular Evaluator better now that I had to teach i
 
 Another cool thing I learnt along the way was the Continuation-Passing Style. Maybe I can't fully teach it from scratch now, but I definitely started having a better appreciation of the concept. It's definitely interesting to "continue" the function by passing it in the body of a newly-defined function. The gist of the concept is to turn a recursive function which gives rise to recursive processes (which is defined as the accumulation of deferred operations), to one that gives rise to an iterative process (tail recursive). I take the following [example](https://sourceacademy.nus.edu.sg/playground#chap=3&exec=1000&ext=RUNES&prgrm=GYVwdgxgLglg9mABBADgZwPoFMCOICGANgBQAeANIgJ6UQJQCUiA3gFCIeIBOWUIXSOmChlEAXgnUGAblYBfVq1CRYCZOgywAtljRlKNZPSZtO3Xv0H1RAKimyFS8NHiCNWmGBB6K1WsZZ2Th4%2BASNhUQBae3lFZRc1VExgfGg4LhgiYjB-YRMgjhDLdUxcAhIcxABGSgKzRAAjcQA%2BRrqzAH5wkSqGdvqOAC4SjA8vPUqa-oGzUhaRlLSMrIppmYHgeaTNGB0JymBcxgYTh0Vtxah0zJIAVko5sVbSGSA) from the lecture slides:
 
-{% tabbed_codeblock Continuation-passing Style %}
-  <!-- tab JavaScript-->
-  // This is written in Source language
+```js
+// This is written in Source language
 
-  function factorial(n) {
-    return n === 1 ? 1 : n * factorial(n - 1);
-  }
+function factorial(n) {
+  return n === 1 ? 1 : n * factorial(n - 1);
+}
 
-  function cps_equal(x, y, cont) {
-    return cont(x === y);
-  }
+function cps_equal(x, y, cont) {
+  return cont(x === y);
+}
 
-  function cps_times(x, y, cont) {
-    return cont(x * y);
-  }
+function cps_times(x, y, cont) {
+  return cont(x * y);
+}
 
-  function cps_minus(x, y, cont) {
-    return cont(x - y);
-  }
+function cps_minus(x, y, cont) {
+  return cont(x - y);
+}
 
-  function cps_factorial(n, cont) {
-    return cps_equal(n, 1,
-      b => b
-           ? cont(1)
-           : cps_minus(n, 1,
-               x => cps_factorial(x, 
-                 f => cps_times(n, f, cont))));
-  }
+function cps_factorial(n, cont) {
+  return cps_equal(n, 1,
+    b => b
+         ? cont(1)
+         : cps_minus(n, 1,
+             x => cps_factorial(x, 
+               f => cps_times(n, f, cont))));
+}
 
-  cps_factorial(5, x => x);
-  <!-- endtab -->
-{% endtabbed_codeblock %}
+cps_factorial(5, x => x);
+```
 
 When I was making an attempt on my own writing the above code, I did this:
-{% tabbed_codeblock A poor attempt at CPS factorial %}
-  <!-- tab JavaScript -->
-    function cps_factorial_fail(n, cont) {
-      return n === 1 ? cont(1) : cps_factorial_fail(n - 1, x => x * cont(n));
-    }
-    cps_factorial_fail(5, x => x);
-  <!-- endtab -->
-{% endtabbed_codeblock %}
+```js
+function cps_factorial_fail(n, cont) {
+  return n === 1 ? cont(1) : cps_factorial_fail(n - 1, x => x * cont(n));
+}
+cps_factorial_fail(5, x => x);
+```
 
 The above example fails to be tail recursive, which I suppose is a purpose of CPS. Looks like I still have got some learning to do!
 
@@ -198,8 +191,7 @@ Before the semester started, I was pretty interested in Lambda Calculus as well.
 Lastly, I think the nicest thing about being an Avenger is being able to learn from your students as well. I learnt how people could approach a problem differently (and sometimes more elegantly), and not only that, I learnt from their positive attitudes as well. 
 
 I picked up this technique from one of my students, which I eventually used for an assignment in my algorithm class:
-{% tabbed_codeblock A nifty trick to target relative 2D Coordinates %}
-<!-- tab JavaScript -->
+```js
 // This is written in Source language
 
 /* Suppose we want to check that the center element is strictly greater than all 
@@ -225,8 +217,7 @@ function check(target) {
   }
   return is_center_a_peak;
 }
-<!-- endtab -->
-{% endtabbed_codeblock %}
+```
 
 What I have above is a bit of a toy problem, but this can be generalised to many other cases. The nice thing about this method is its flexibility in defining the directions. It may be slightly error prone in terms of whether you should access `dy` or `dx` first, but that aside I was pretty impressed by this technique.
 

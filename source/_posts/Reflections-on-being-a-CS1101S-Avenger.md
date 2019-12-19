@@ -160,12 +160,14 @@ I definitely understood Meta-Circular Evaluator better now that I had to teach i
 Another cool thing I learnt along the way was the Continuation-passing style. Maybe I can't fully teach it from scratch now, but I definitely started having a better appreciation of the concept. It's definitely interesting to "continue" the function by passing it in the body of a newly-defined function. The gist of the concept is to turn a recursive function which gives rise to recursive processes (which is defined as the accumulation of deferred operations), to one that gives rise to an iterative process (tail recursive). I take the following [example](https://sourceacademy.nus.edu.sg/playground#chap=1&exec=1000&ext=NONE&prgrm=GYVwdgxgLglg9mABBADgZwPoFMCOICGANgBQAeANIgJ6UQJQCUiA3gFCIeIBOWUIXSOmChlEAXgnUGAblYBfVq1CRYCZOgywAtljRlKNZPSZtO3Xv0H1RAKimyFS8NHiCNWmGBB6K1WsZZ2Th4%2BASNhUQBae3lFZRc1VExgfGg4LhgiYjB-YRMgjhDLdUxcAhIcxABGSgKzRAAjcQA%2BRrqzAH5wkSqGdvqOAC4SjA8vPUqa-oGzUhaRlLSMrIppmYHgeaTNGB0JymBcxgYTh0Vtxah0zJIAVko5sVbSGSA) from the lecture slides:
 
 {% tabbed_codeblock Continuation-passing style %}
-  <!-- tab JavaScript-->
+  <!-- tab JS -->
   // This is written in Source language
 
   // Normal factorial
   function factorial(n) {
-    return n === 1 ? 1 : n * factorial(n - 1);
+    return n === 1 
+           ? 1 
+           : n * factorial(n - 1);
   }
 
   // CPS factorial
@@ -197,9 +199,11 @@ I leave it as an exercise to the reader to figure out what is going on :P
 
 When I was making an attempt on my own writing the above code, I did this:
 {% tabbed_codeblock A poor attempt at CPS factorial %}
-  <!-- tab JavaScript -->
+  <!-- tab JS -->
     function cps_factorial_fail(n, cont) {
-      return n === 1 ? cont(1) : cps_factorial_fail(n - 1, x => x * cont(n));
+      return n === 1 
+             ? cont(1) 
+             : cps_factorial_fail(n - 1, x => x * cont(n));
     }
     cps_factorial_fail(5, x => x);
   <!-- endtab -->
@@ -214,8 +218,8 @@ Before the semester started, I was pretty interested in Lambda Calculus as well.
 Lastly, I think the nicest thing about being an Avenger is being able to learn from your students as well. I learnt how people could approach a problem differently (and sometimes more elegantly), and not only that, I learnt from their positive attitudes as well. 
 
 I picked up this technique from one of my students, which I eventually used for an assignment in my algorithm class:
-{% tabbed_codeblock A nifty trick to target relative 2D Coordinates %}
-<!-- tab JavaScript -->
+{% tabbed_codeblock Nifty trick to target relative 2D coords %}
+<!-- tab JS -->
 // This is written in Source language
 
 /* Suppose we want to check that the center element is strictly greater than all 

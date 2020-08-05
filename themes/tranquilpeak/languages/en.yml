@@ -1,5 +1,5 @@
 # date format displayed everywhere in the blog
-date_format: "DD MMM YYYY"
+date_format: "MMM DD, YYYY"
 
 global:
     home: "Home"
@@ -75,14 +75,12 @@ post:
     comment: "Leave a comment"
     share: "Share this post"
     gallery: "Gallery"
-    word_count: "%s words"
-    minutes_to_read: "%d mins to read"
     image:
         one: "image"
         other: "%d images"
 
 author:
     # Your biography (Markdown and HTML supported)
-    bio: "A computer science undergraduate at National University of Singapore"
+    bio: ""
     # Your job
-    job: "Student"
+    job: ""

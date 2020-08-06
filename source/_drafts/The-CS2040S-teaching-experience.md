@@ -105,4 +105,6 @@ However, I don’t see myself stopping from teaching. Perhaps I will still be as
 
 To wrap up this post, I would like to give thanks to all my students for making my experience really enjoyable! I also owe a lot to the other TAs whom I have received help from throughout the semester. It's been a memorable semester! I took this screenshot of my Zoom class before the semester ended; too bad we couldn't take a picture in-person:
 
+{% asset_img cs2040s-tut32-ay1920s2.jpg "My CS2040S (Zoom) tutorial in AY19/20 Sem 2" %}
+
 It's yet another long post, and thank you for reading!

@@ -1,7 +1,9 @@
 ---
 title: The CS2040S teaching experience
+date: 2020-08-07 09:01:24
 tags:
 ---
+
 
 <!--toc-->
 ## Introduction

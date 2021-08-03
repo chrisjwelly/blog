@@ -1,6 +1,13 @@
 ---
-title: binary-searching-bugs-with-git-bisect
+title: Binary Searching bugs with git bisect
 tags:
+  - programming
+  - software engineering
+  - git
+  - algorithms
+  - binary search
+categories:
+  - Tech
 ---
 
 <!--toc-->
@@ -14,7 +21,7 @@ I had known the principle of `git bisect` -- it essentially performs a binary se
 In that one usage, `git bisect` easily became my favourite git command. In this post, I hope to provide a simple use case and guide to use `git bisect`, while demonstrating how fast it can help you identify the violating commit.
 
 A basic understanding of data structures and algorithms (array/linked lists and linear/binary search) and git (e.g. committing, checking-out commits) is preferred, but I think the concepts are intuitive enough and I will try to make it as accessible as I can.
-
+<!--more-->
 ## Theory
 Let us recall the concept of linear and binary search in the context of an array.
 
@@ -33,7 +40,7 @@ The following diagram shows a binary search in action:
 
 The time complexity of a binary search is O(log(n)), where n is the number of elements in the array. This is way (exponentially, to be precise) faster than a linear search which takes time complexity O(n)
 
-For reference, when n = 1024, log_2(1024) = 10. When n = 2048, log_2(2048) = 11. This can be interpreted as it takes around 10 and 11 times of this "comparing with middle element" procedure described above if we are given an array of 1024 and 2048 respectively.
+For reference, log<sub>2</sub>(1024) = 10 and log<sub>2</sub>(2048) = 11. This can be interpreted as it takes around 10 and 11 times of this "comparing with middle element" procedure described above if we are given an array of 1024 and 2048 respectively. In a linear search, we will need to do around 1024 and 2048 element-by-element inspections respectively.
 
 I would like to note that binary search is a concept that is not just applicable to a sorted array. It is also applicable in the context of a monotonic function f(x) - where as x increases, f(x) will either stay the same or increase (correspondingly, decrease). Binary search is typically used to find the smallest (or largest) value satisfying some condition. 
 
@@ -62,10 +69,12 @@ Let us pretend that bad.txt is a bug that was introduced in the middle of develo
 
 (Now I am aware that there are easier ways than `git bisect` to identify this commit in this particular example, I prepared the example in this way in order to deliver the essence of this command: finding the commit where the bug was first introduced fast. )
 
+### Video Demo
 For those who prefer looking at me trying to blaze through the commits, I provide a video here:
 
 [Video](https://youtu.be/mxFCW5OX4ig)
 
+### Textual Instructions
 For readers who prefer just reading, these are the steps to do it:
 1. `git bisect start` will initiate the git bisect wizard. It might not look like anything happened, but if you type `git status`, it will show that you are currently bisecting
 1. `git bisect bad <commit hash>`, commit hash not actually necessary

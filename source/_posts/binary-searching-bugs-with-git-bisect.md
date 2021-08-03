@@ -40,6 +40,8 @@ Algorithm classes in school would usually teach the concept of binary search wit
 
 The following diagram shows a binary search in action:
 
+{% asset_img binarysearch.png "Binary Search visualisation" %}
+
 The time complexity of a binary search is O(log(n)), where n is the number of elements in the array. This is way (exponentially, to be precise) faster than a linear search which takes time complexity O(n)
 
 For reference, log<sub>2</sub>(1024) = 10 and log<sub>2</sub>(2048) = 11. This can be interpreted as it takes around 10 and 11 times of this "comparing with middle element" procedure described above if we are given an array of 1024 and 2048 respectively. In a linear search, we will need to do around 1024 and 2048 element-by-element inspections respectively.

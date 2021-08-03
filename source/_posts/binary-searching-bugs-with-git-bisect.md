@@ -74,9 +74,9 @@ Let us pretend that bad.txt is a bug that was introduced in the middle of develo
 (Now I am aware that there are easier ways than `git bisect` to identify this commit in this particular example, I prepared the example in this way in order to deliver the essence of this command: finding the commit where the bug was first introduced fast. )
 
 ### Video Demo
-For those who prefer looking at me trying to blaze through the commits, I provide a video here:
+For those who prefer looking at me trying to blaze through the commits, I recorded a video here:
 
-[Video](https://youtu.be/mxFCW5OX4ig)
+{% youtube mxFCW5OX4ig %}
 
 ### Textual Instructions
 For readers who prefer just reading, these are the steps to do it:
@@ -92,7 +92,7 @@ For readers who prefer just reading, these are the steps to do it:
 
 We see how with a repository of 1000 commits, we managed to identify the violating bug in just around 10 steps! Of course realistically, you probably will not have to examine a range of 1000 commits to spot a bug. When I used it for my project, I had to examine at most around 30 commits which amounts to around 5 steps. But it gives an indication of how powerful the command is; you don’t have to worry about having a lot of commits because `git bisect` can go through it in no time.
 
-## Further Discussion
+## Further Discussions
 ### Alternatives in the demo
 As mentioned earlier, in the example repository I gave, one can easily find the commit by simply checking when the file was introduced. Moreover, if you want to find out who made the change, one can also do a `git blame`.
 

@@ -115,6 +115,9 @@ An assumption we are implicitly making is that once the bug appears, it stays al
 
 In our discussion earlier, visualising the good and bad commits as "0"s and "1"s respectively, what we want is to have an array of "0"s followed by "1"s. We do not want to make it such that another "0" appear right after the consecutive "1"s, making the value not monotonically increasing anymore. In simpler terms, it is like having an unsorted array and we know that we are not able to run a binary search on an unsorted array.
 
+### Try an implementation for further understanding
+A similar problem on Leetcode is available if you'd like to try an implementation yourself - https://leetcode.com/problems/first-bad-version/. Here, you can think of as the function given to you is the user inputting whether a commit is good or bad, and you are implementing the Git logic to halve the search range appropriately.
+
 ## Summary
 To summarise, here are the important steps that you need to do:
 1. `git bisect start` to start the wizard

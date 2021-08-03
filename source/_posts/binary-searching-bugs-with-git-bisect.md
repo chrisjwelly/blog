@@ -8,7 +8,9 @@ tags:
   - binary search
 categories:
   - Tech
+date: 2021-08-03 15:03:28
 ---
+
 
 <!--toc-->
 ## Introduction

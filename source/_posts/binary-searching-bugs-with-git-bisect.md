@@ -51,18 +51,22 @@ I would like to note that binary search is a concept that is not just applicable
 It can also be used to find the "leftmost" value. In the case of binary searching on a sorted array, this can be thought of having duplicate elements and you are finding the "leftmost" value among these duplicates. This is precisely the concept of `git bisect` which I will introduce in a bit.
 
 ## Using this concept in Git
-In this post, let us concern ourselves with only regular commits, and not discuss merge commits. In this scenario, a commit history is essentially a linked list of commits(disclaimer time) as one can see here:
+In this post, let us concern ourselves with only regular commits, and not discuss merge commits. In this scenario, a commit history is essentially a linked list<sup>1</sup> of commits as one can see here:
+
+{% asset_img gitcommits.png "Visualisation of git commits" %}
 
 Thus, when presented with the scenario in the introduction, it might be natural for you to perform a linear search on the commit history. That is, you do a `git checkout <commit hash>` one-by-one down the history, until you encounter a commit where the bug does not occur. The previous commit is then the first occurrence of the bug. Of course, if you have your suspicions on which commit causes the bug, you can avoid doing a linear search entirely and just checkout there. But in this context, let's suppose we have absolutely no idea what happened!
 
-`git bisect` takes this concept in a binary search setting:
+`git bisect` takes this concept in a binary search<sup>2</sup> setting:
 1. It will ask you to give a range. Give it a commit where the bug has occurred, and another commit where the bug has not occurred.
 1. It will perform a binary search by performing a `checkout` on the middle commit of the range, asking your feedback whether it was a good or bad commit.
 1. It will then halve the range appropriately, until it pinpoints the exact commit where the bug first occurred.
 
 Here is a visualisation:
+{% asset_img gitbisect.png "Visualisation of git bisect" %}
 
-Going back to our theory, you can think of the good commits as having the value of 0, and bad commits as having the value of 1. Thus, it is like we are having an array of 0s followed by 1s, and we are searching for the "leftmost" 1 (which is the bad commit).
+Going back to our theory, you can think of the good commits as having the value of 0, and bad commits as having the value of 1. Thus, it is like we are having an array of "0"s followed by "1"s, and we are searching for the "leftmost" 1 (which is the first bad commit).
+
 
 ## Demo with Git Bisect
 For now, enough theory. To illustrate the power of Git Bisect and how fast it can sift through the commit history, I have prepared this repository: https://github.com/chrisjwelly/git-bisect-demo for a demo. What I have is very simple:
@@ -71,7 +75,7 @@ For now, enough theory. To illustrate the power of Git Bisect and how fast it ca
 
 Let us pretend that bad.txt is a bug that was introduced in the middle of development. We want to find the commit that first introduced this bad.txt file using `git bisect`
 
-(Now I am aware that there are easier ways than `git bisect` to identify this commit in this particular example, I prepared the example in this way in order to deliver the essence of this command: finding the commit where the bug was first introduced fast. )
+(Now I am aware that there are easier ways than `git bisect` to identify this commit in this particular example, I prepared the example in this way in order to deliver the essence of this command: finding the commit where the bug was first introduced fast.)
 
 ### Video Demo
 For those who prefer looking at me trying to blaze through the commits, I recorded a video here:
@@ -81,13 +85,12 @@ For those who prefer looking at me trying to blaze through the commits, I record
 ### Textual Instructions
 For readers who prefer just reading, these are the steps to do it:
 1. `git bisect start` will initiate the git bisect wizard. It might not look like anything happened, but if you type `git status`, it will show that you are currently bisecting
-1. `git bisect bad <commit hash>`, commit hash not actually necessary
-1. `git log --oneline` and take the commit hash of the commit where the bug has not been introduced yet
-1. `git bisect good <commit hash>`.
-1. Depending on whether the current one is good or bad, type `git bisect good`
-1. Else `git bisect bad`
+1. `git bisect bad` to mark the current commit as bad
+1. `git log --oneline` and take the commit hash of the commit where the bug has not been introduced yet (good commit)
+1. `git bisect good <commit hash>` to mark that commit as a good commit
+1. Depending on whether the current one is good or bad, type `git bisect good`, else `git bisect bad`
 1. Repeat the procedure, deciding whether the commit is good or bad...
-1. Until you finally identified the bad commit!
+1. Until you finally identified the first bad commit!
 1. `git bisect reset` in order to exit the wizard
 
 We see how with a repository of 1000 commits, we managed to identify the violating bug in just around 10 steps! Of course realistically, you probably will not have to examine a range of 1000 commits to spot a bug. When I used it for my project, I had to examine at most around 30 commits which amounts to around 5 steps. But it gives an indication of how powerful the command is; you don’t have to worry about having a lot of commits because `git bisect` can go through it in no time.
@@ -125,3 +128,9 @@ That story in the introduction wasn’t the only time I actually used `git bisec
 For those of you who just discovered this command, I hope I managed to convince or at least give an idea of what `git bisect` can do. You will hopefully find an opportunity to utilise it one day!
 
 For further reading, one can read the documentation: https://git-scm.com/docs/git-bisect
+
+<hr>
+<sup>1</sup> It is more accurate to think of it as directed graph, when we consider merge commits. 
+<br>
+<sup>2</sup> The astute reader might be thinking at this point: "But you can't binary search on a linked list! How can this be allowed!". I must admit that you have a point. This is something that I am trying to research as well with not much luck. For now, I would believe that Git has provided the necessary infrastructure in their implementation to make a binary search possible. Should I find anything, I would update this blog!
+<hr>

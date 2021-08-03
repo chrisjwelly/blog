@@ -28,7 +28,7 @@ Let us recall the concept of linear and binary search in the context of an array
 ### Linear Search
 The strategy is pretty simple - you will look up the element that you want in the array one-by-one:
 
-ATTACH IMAGE HERE
+{% asset_img linearsearch.png "Linear Search visualisation" %}
 
 ### Binary Search
 Algorithm classes in school would usually teach the concept of binary search with that of a sorted array. The idea is as follows:

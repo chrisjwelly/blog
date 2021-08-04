@@ -8,9 +8,6 @@ branches:
     - master # build master branch only
 script:
   - bash travis.sh
-before_install:
-  - sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules
-  - git submodule update --init --recursive
 deploy:
   provider: pages
   skip-cleanup: true

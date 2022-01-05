@@ -1,7 +1,14 @@
 ---
 title: 'Career Progression: CS3230 TA'
-date: 2022-01-03 21:10:21
+date: 2022-01-05 21:10:21
 tags:
+  - teaching
+  - CS2040S
+  - university
+  - data structures
+  - algorithms
+categories:
+  - University
 ---
 
 <!--toc-->
@@ -40,11 +47,11 @@ I also made an effort to be visual whenever I can, including the appropriate col
 
 {% asset_img dir-ham-cycle-reduction.png "Diagram to illustrate the reduction from 3-SAT to Directed Hamiltonian Cycle" %}
 
-All these preparations took a lot of time. In some weeks, I stayed up to 4-5AM just to prepare them. I do estimate that I can spend from 6 to 10 hours a week just preparing slides. Almost all of my weeks have over 100 slides, with the most being up to max slides. I am personally very satisfied and proud with the work I have done preparing the slides. It may have been a lot of work, but I am preparing for at least 47 students; that is a huge responsibility. Later on in the semester, I have received several emails asking for access to my slides as well. It really makes me happy that people find it helpful!
+All these preparations took a lot of time. In some weeks, I stayed up to 4-5AM just to prepare them. I do estimate that I can spend from 6 to 10 hours a week just preparing slides. Almost all of my weeks have over 100 slides, with the most being up to ~170 slides. I am personally very satisfied and proud with the work I have done preparing the slides. It may have been a lot of work, but I am preparing for at least 47 students; that is a huge responsibility. Later on in the semester, I have received several emails asking for access to my slides as well. It really makes me happy that people find it helpful!
 {% asset_img slides-request.png "E-mail of a student not in my class requesting for slides" %}
 
 ### The online tutorial
-Due to COVID-19, all the tutorials are online. It was my first time doing a fully-online teaching, so I was a little nervous too. As mentioned earlier, I taught 2 slots: one on Thursday, and one on Friday. While I do know some tutors prefer teaching back-to-back, I personally found it helpful not to. First of all, I could conduct a consultation session after each slot in order to give clarity when needed. Second of all, it gives me time to reflect and improve for the later slot. This was immensely useful since most of my slides are new. There were even occasions when students caught major typos in my slides, which I fixed for the next class. (I feel slightly bad for the earlier class though, my apologies!)
+Due to COVID-19, all the tutorials were online. It was my first time doing a fully-online teaching, so I was a little nervous too. As mentioned earlier, I taught 2 slots: one on Thursday, and one on Friday. While I do know some tutors prefer teaching back-to-back, I personally found it helpful not to. First of all, I could conduct a consultation session after each slot in order to give clarity when needed. Second of all, it gives me time to reflect and improve for the later slot. This was immensely useful since most of my slides were new. There were even occasions when students caught major typos in my slides, which I fixed for the next class. (I feel slightly bad for the earlier class though, my apologies!)
 
 In the first class of the semester, I had asked people to turn on their cameras so I could at least see them. This was not sustainable, but it did not affect teaching so much. Still, I ended the semester not knowing how most of my students looked like. Once in school I joked with a friend that I could be walking past any of them without knowing, and an hour later I actually passed one of the students I happened to recognise. But I digress about tutorials.
 
@@ -56,7 +63,7 @@ One thing I learned to be helpful was to stop frequently and to ask students to 
 
 I personally think the advantage of having online tutorials is being able to record the tutorials. I was initially afraid that it would mean less engagement in class, but to my pleasant surprise I still felt that the engagement was sufficient. Initially, I simply compiled all the recording links in one place that point to the Zoom recording. However, I received feedback about how the Zoom UI is rather suboptimal, so I eventually hosted them on YouTube as well. This is also helpful for future references, as I am unsure whether Zoom will be able to host the videos forever. For those interested, the playlist of my tutorials can be found [here](https://youtube.com/playlist?list=PL05ri2Yh409oa4OZmwLJze2O3IDHZyKFH).
 
-Since tutorials are also online and I get less chance to interact with the students, one thing I tried to do to make class slightly more exciting is to play random videos before the start of the class. Here are a few samplers (no rickrolls, I promise): sample [one](https://www.youtube.com/watch?v=ih9zBLDr_ro), [two](https://www.youtube.com/watch?v=miomuSGoPzI) and [three](https://www.youtube.com/watch?v=V3uP7TtDeFc). I suppose I just didn’t want the wait before class starting to be awkward. Most of the time, no one said anything about it, except for that one time someone expected a funny video when I was playing a serious video for once. At the end of the semester, someone also commented that he would miss the random videos I play before class. That's nice.
+Since tutorials are also online and I get less chance to interact with the students, one thing I tried to do to make class slightly more exciting is to play random videos before the start of the class. Here are a few samplers (no rickrolls, I promise): sample [one](https://www.youtube.com/watch?v=ih9zBLDr_ro), [two](https://www.youtube.com/watch?v=miomuSGoPzI) and [three](https://www.youtube.com/watch?v=V3uP7TtDeFc). I suppose I just didn’t want the wait before class starting to be awkward. Most of the time, no one said anything about it, except for that one time someone expected a funny video when I was playing a serious video for once. At the end of the semester, someone also commented that he would miss the random videos I play before class. That's nice!
 
 A lot of things went relatively well, but much can be improved on. As for a personal reflection, I typically always either end on time, or overrun my classes. This is a consequence of having a detailed recap session, and attempting to go through the questions in more detail. Fortunately, the session is recorded so I could use it as a guarantee that students are not missing out. Punctuality is something I will try to work on in the future, and honestly I had expected this to be raised up in my teaching feedback. Surprisingly, no one raised it up. I am unsure as to what it might suggest -- are students okay with me overrunning it a bit? Or perhaps they simply do not mind?
 
@@ -76,10 +83,12 @@ I initially attempted a policy where I will not answer questions 48 hours before
 
 During recess and reading weeks, I took the effort to give additional consultation hours as I am sure they would have studied the material more closely and had questions. I ran one 1.5 hr session in recess week, and two 1.5 hr sessions in reading week. Attendance was decent, but I typically spend a considerable amount of time answering one question in detail. I wonder if some of the questions were left out as a consequence of this. 
 
-Again, another nice thing about conducting all these online is that I could record them and timestamp some of the things I covered. At the very least, if someone else has the same question, I could save some time and redirect them to my video recording of consultations. I also took care to save the notes during consultation (I use Goodnotes on iPad), which they can refer to if needed.
+Again, another nice thing about conducting all these online is that I could record them and timestamp some of the things I covered. At the very least, if someone else has the same question, I could save some time and redirect them to my video recording of consultations. I also took care to save the notes during consultation (I use GoodNotes on iPad), which they can refer to if needed.
 
 ## Conclusion
-Overall, I enjoyed being a CS3230 TA this recent semester. I personally do think that CS3230 is not an easy module. It requires more-than-average mathematical maturity, and I do try my best to make the content as accessible as possible. I received some thank-you emails from people not even from my class and these are little things that motivate me to keep moving forward! Nothing makes me happier to hear that people are benefitting from the effort I put in to deliver the content.
+Overall, I enjoyed being a CS3230 TA this recent semester. Doing CS3230 preparation work is actually like therapy for me when I am too lazy to do work that I am supposed to do, like my own modules. Oops. I suppose it is as such because I know what I should be doing in CS3230, it is just a lot of work. Whereas my own module is where I learn new things and had to struggle a bit more.
+
+I personally do think that CS3230 is not an easy module. It requires more-than-average mathematical maturity, and I do try my best to make the content as accessible as possible. I received some thank-you emails from people not even from my class and these are little things that motivate me to keep moving forward! Nothing makes me happier to hear that people are benefitting from the effort I put in to deliver the content.
 
 {% asset_img thank-you-email.png "A thank-you email by a student" %}
 

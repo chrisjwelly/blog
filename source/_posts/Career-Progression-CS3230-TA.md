@@ -3,7 +3,7 @@ title: 'Career Progression: CS3230 TA'
 date: 2022-01-05 21:10:21
 tags:
   - teaching
-  - CS2040S
+  - CS3230
   - university
   - data structures
   - algorithms

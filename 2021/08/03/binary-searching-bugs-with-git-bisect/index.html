@@ -1,0 +1,758 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Christian&#39;s blog">
+    <title>Binary Searching bugs with Git Bisect - Christian&#39;s blog</title>
+    <meta name="author" content="Christian James Welly">
+    
+        <meta name="keywords" content="hexo,javascript,">
+    
+    
+    
+        
+            <link rel="alternate" type="application/atom+xml" title="RSS" href="/blog/atom.xml">
+        
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Christian James Welly","sameAs":["https://github.com/chrisjwelly","https://www.linkedin.com/in/chrisjwelly","/atom.xml"],"image":"profile-picture.jpeg"},"articleBody":"\nIntroductionThe time is 7PM. Your software project is due at 11:59PM. You have yet to write the developer guide to document your software which is part of the submission. You are writing a testing plan which also serves as a guide for your graders to assess your software. As you were writing the steps to test, you discovered a regression. This feature that was working just 3 hours ago is now causing the application to crash! What happened? What would you do?\nI was in this exact situation recently for a school project. I had to decide whether it was worth identifying this bug and writing a patch for it (and potentially breaking other features for whatever reason it might be), or whether I should continue with the rest of the submission documents. I panicked really hard. In that moment of desperation, from a deep region in my memory, I suddenly recalled: git bisect.\nI had known the principle of git bisect – it essentially performs a binary search for the first commit which caused a particular bug. It was going to be the first time I was using it. I quickly looked up tutorials and documentation online. 10 minutes later, I found the commit which caused the bug. Quickly patched it up (whether there were further bugs is another story altogether), and went back to writing my other submission documents.\nIn that one usage, git bisect easily became my favourite git command. In this post, I hope to provide a simple use case and guide to use git bisect, while demonstrating how fast it can help you identify the violating commit.\nA basic understanding of data structures and algorithms (array/linked lists and linear/binary search) and git (e.g. committing, checking-out commits) is preferred, but I think the concepts are intuitive enough and I will try to make it as accessible as I can.\n\nTheoryLet us recall the concept of linear and binary search in the context of an array.\nLinear SearchThe strategy is pretty simple - you will look up the element that you want in the array one-by-one:\n\n\nBinary SearchAlgorithm classes in school would usually teach the concept of binary search in the context of a sorted array. The idea is as follows:\n\nLook at the “middle” element and make a comparison.\nIf that “middle” element is exactly the one you are looking for, return true (or its index). If what you are searching for is bigger than the middle element, discard ALL the values smaller than that element including itself1 and vice versa. \nRepeat this process until you have found the desired element or have no elements left.\n\nThe following diagram shows a binary search in action:\n\n\nThe time complexity of a binary search is O(log(n)), where n is the number of elements in the array. This is way faster (exponentially faster, to be precise) than a linear search which takes time complexity O(n).\nFor reference, log2(1024) = 10 and log2(2048) = 11. This can be interpreted as it takes around 10 and 11 times of this “comparing with middle element” procedure described above if we are given an array of 1024 and 2048 respectively, before binary search terminates. In a linear search, we will need to do around 1024 and 2048 element-by-element inspections respectively.\nI would like to note that binary search is a concept that is not just applicable to a sorted array. It is also applicable in the context of a monotonic function f(x) - where as x increases, f(x) will either stay the same or increase (correspondingly, decrease). Binary search is typically used to find the smallest (or largest) value satisfying some condition in a monotonic function. \nIt can also be used to find the “leftmost” value. In the case of binary searching on a sorted array, this can be thought of having duplicate elements and you are finding the “leftmost” value among duplicates of that value. This is precisely the concept of git bisect which I will introduce in a bit.\nUsing this concept in GitIn this post, let us concern ourselves with only regular commits, and not discuss merge commits. In this scenario, a commit history is essentially a linked list2 of commits as one can see here:\n\n\nThus, when presented with the scenario in the introduction, it might be natural for you to perform a linear search on the commit history. That is, you do a git checkout &lt;commit hash&gt; one-by-one down the history, until you encounter a commit where the bug does not occur. The previous commit is then the first occurrence of the bug. Of course, if you have your suspicions on which commit causes the bug, you can avoid doing a linear search entirely and just checkout there. But in this context, let’s suppose we have absolutely no idea what happened!\ngit bisect takes this concept in a binary search3 setting:\n\nIt will ask you to give a range. Give it a commit where the bug has occurred, and another commit where the bug has not occurred.\nIt will perform a binary search by performing a checkout on the middle commit of the range, asking your feedback whether it was a good or bad commit.\nIt will then halve the range appropriately, until it pinpoints the exact commit where the bug first occurred.\n\nHere is a rough visualisation, think of mid as the position that Git automatically checks-out to for you:\n\n\nGoing back to our theory, you can think of the good commits as having the value of “0”, and bad commits as having the value of “1”. Thus, it is like we are having an array of “0”s followed by “1”s, and we are searching for the “leftmost” 1 (which is the first bad commit).\nDemo with Git BisectFor now, enough theory. To illustrate the power of Git Bisect and how fast it can sift through the commit history, I have prepared this repository: https://github.com/chrisjwelly/git-bisect-demo for a demo. What I have is very simple:\n\nA commit history of around 1024 commits\nTwo files: good.txt and bad.txt\n\nLet us pretend that bad.txt is a bug that was introduced in the middle of development. We want to find the commit that first introduced this bad.txt file using git bisect.\n(Now, I am aware that there are easier ways than git bisect to identify this commit in this particular example, I prepared the example in this way in order to deliver the essence of this command: finding the commit where the bug was first introduced fast.)\nVideo DemoFor those who prefer looking at me trying to blaze through the commits, I recorded a video here:\n\n\nTextual InstructionsFor readers who prefer just reading, these are the steps to do it:\n\ngit bisect start will initiate the Git Bisect wizard. It might not look like anything happened, but if you type git status, it will show that you are currently bisecting\ngit bisect bad to mark the current commit as bad\ngit log --oneline and take the commit hash of the commit where the bug has not been introduced yet (finding a good commit)\ngit bisect good &lt;commit hash&gt; to mark that commit as a good commit\nDepending on whether the current one is good or bad, type git bisect good, else git bisect bad\nRepeat the procedure, deciding whether the commit is good or bad…\nUntil you finally identified the first bad commit!\ngit bisect reset in order to exit the wizard\n\nWe see how with a repository of 1000 commits, we managed to identify the violating bug in just around 10 steps! Of course realistically, you probably will not have to examine a range of 1000 commits to spot a bug. When I used it for my project, I had to examine at most around 30 commits which amounts to around 5 steps. But it gives an indication of how powerful the command is; you don’t have to worry about having a lot of commits because git bisect can go through it in very little time.\nFurther DiscussionsAlternatives in the demoAs mentioned earlier, in the example repository I gave, one can easily find the commit by simply checking when the file was introduced. Moreover, if you want to find out who made the change, one can also do a git blame.\nHowever, git bisect is different. Consider a case like in the introduction section, when you discover regressions in the application. You have no idea which file or line of code caused it. You don’t even know what change caused it. All you know is that at some point in the past, this feature was working and now it isn’t. With git bisect, you can identify this first commit where the bug occurred, and also examine what changes were made in this commit.\nModular commitsThis git bisect command works best if your commit is modular. That is, you don’t make tonnes of changes in a single commit. Each commit is relatively small and clear in what changes it introduces. I personally prefer committing regularly, and I was very grateful that I did, allowing me to run git bisect on my repository to identify the commit that caused the regression.\nPrevention is better than cureYou might also want to adopt test-driven development or just write tests in general to prevent regressions. With a test suite set up, you will ensure that you don’t introduce bugs inadvertently. In my case however, the feature was rather difficult to test since it was a game (and frankly speaking, I had no time to write tests given the tight deadline of the project). \nAutomated Git BisectThe process of entering git bisect good and git bisect bad for each checkout can be very tedious. To automate this, there exists a git bisect run &lt;script&gt; feature, which runs a script in order decide whether the current revision is a bad or good commit. I will not be discussing this method in this post (partially because I haven’t used it myself), but I may be in the future!\nAssumptions about presence of the bugAn assumption we are implicitly making is that once the bug appears, it stays all the time (before you squash it, of course). That is, we don’t want a scenario when the commit has an irregular history of: good -&gt; bad -&gt; good -&gt; bad. \nIn our discussion earlier, visualising the good and bad commits as “0”s and “1”s respectively, what we want is to have an array of “0”s followed by “1”s. We do not want to make it such that another “0” appear right after the consecutive “1”s, making the value not monotonically increasing anymore. In simpler terms, we don’t want to end up with an unsorted array, since we know that we are not able to run a binary search on an unsorted array.\nTry an implementation for further understandingA similar problem on Leetcode is available if you’d like to try an implementation yourself - https://leetcode.com/problems/first-bad-version/. Here, you can think of as the function given to you is the user inputting whether a commit is good or bad, and you are implementing the Git logic to halve the search range appropriately.\nSummaryTo summarise, here are the important steps that you need to do:\n\ngit bisect start to start the wizard\ngit bisect bad &lt;commit hash&gt; to first show where there is the bug\ngit bisect good &lt;commit hash&gt; to tell the wizard where the commit without a bug is\nKeep typing git bisect good or git bisect bad depending on what the current commit is\ngit bisect reset after you have identified the bad commit\n\nThat story in the introduction wasn’t the only time I actually used git bisect. I have used this command at least 4 times throughout a single software engineering module.\nFor those of you who just discovered this command, I hope I managed to convince or at least give an idea of what git bisect can do. Perhaps you will find an opportunity to utilise it one day! (Although, I hope that you don’t have to do it because a bug was introduced)\nFor further reading, please refer to the Git Bisect documentation: https://git-scm.com/docs/git-bisect\n\n1 There are different implementations. Some implementations discard values strictly smaller than the middle element. But it is more important to get the general idea here\n\n2 It is more accurate to think of commit history as a directed graph, especially when we consider merge commits. \n\n3 The astute reader might be thinking at this point: \"But you can't binary search on a linked list! How can this be allowed!\". I must admit that you have a point. This is something that I am trying to research as well with not much luck. For now, I would believe that Git has provided the necessary infrastructure in their implementation to make a binary search possible. Should I find anything, I would update this blog!\n","dateCreated":"2021-08-03T15:03:28+08:00","dateModified":"2021-08-04T13:04:32+08:00","datePublished":"2021-08-03T15:03:28+08:00","description":"\nIntroductionThe time is 7PM. Your software project is due at 11:59PM. You have yet to write the developer guide to document your software which is part of the submission. You are writing a testing plan which also serves as a guide for your graders to assess your software. As you were writing the steps to test, you discovered a regression. This feature that was working just 3 hours ago is now causing the application to crash! What happened? What would you do?\nI was in this exact situation recently for a school project. I had to decide whether it was worth identifying this bug and writing a patch for it (and potentially breaking other features for whatever reason it might be), or whether I should continue with the rest of the submission documents. I panicked really hard. In that moment of desperation, from a deep region in my memory, I suddenly recalled: git bisect.\nI had known the principle of git bisect – it essentially performs a binary search for the first commit which caused a particular bug. It was going to be the first time I was using it. I quickly looked up tutorials and documentation online. 10 minutes later, I found the commit which caused the bug. Quickly patched it up (whether there were further bugs is another story altogether), and went back to writing my other submission documents.\nIn that one usage, git bisect easily became my favourite git command. In this post, I hope to provide a simple use case and guide to use git bisect, while demonstrating how fast it can help you identify the violating commit.\nA basic understanding of data structures and algorithms (array/linked lists and linear/binary search) and git (e.g. committing, checking-out commits) is preferred, but I think the concepts are intuitive enough and I will try to make it as accessible as I can.","headline":"Binary Searching bugs with Git Bisect","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://chrisjwelly.github.io/blog/2021/08/03/binary-searching-bugs-with-git-bisect/"},"publisher":{"@type":"Organization","name":"Christian James Welly","sameAs":["https://github.com/chrisjwelly","https://www.linkedin.com/in/chrisjwelly","/atom.xml"],"image":"profile-picture.jpeg","logo":{"@type":"ImageObject","url":"profile-picture.jpeg"}},"url":"https://chrisjwelly.github.io/blog/2021/08/03/binary-searching-bugs-with-git-bisect/","keywords":"programming, algorithms, software engineering, git, binary search"}</script>
+    <meta name="description" content="IntroductionThe time is 7PM. Your software project is due at 11:59PM. You have yet to write the developer guide to document your software which is part of the submission. You are writing a testing pl">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="Binary Searching bugs with Git Bisect">
+<meta property="og:url" content="https://chrisjwelly.github.io/blog/2021/08/03/binary-searching-bugs-with-git-bisect/index.html">
+<meta property="og:site_name" content="Christian&#39;s blog">
+<meta property="og:description" content="IntroductionThe time is 7PM. Your software project is due at 11:59PM. You have yet to write the developer guide to document your software which is part of the submission. You are writing a testing pl">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://chrisjwelly.github.io/blog/2021/08/03/binary-searching-bugs-with-git-bisect/linearsearch.png">
+<meta property="og:image" content="https://chrisjwelly.github.io/blog/2021/08/03/binary-searching-bugs-with-git-bisect/binarysearch.png">
+<meta property="og:image" content="https://chrisjwelly.github.io/blog/2021/08/03/binary-searching-bugs-with-git-bisect/gitcommits.png">
+<meta property="og:image" content="https://chrisjwelly.github.io/blog/2021/08/03/binary-searching-bugs-with-git-bisect/gitbisect.png">
+<meta property="article:published_time" content="2021-08-03T07:03:28.000Z">
+<meta property="article:modified_time" content="2021-08-04T05:04:32.550Z">
+<meta property="article:author" content="Christian James Welly">
+<meta property="article:tag" content="programming">
+<meta property="article:tag" content="algorithms">
+<meta property="article:tag" content="software engineering">
+<meta property="article:tag" content="git">
+<meta property="article:tag" content="binary search">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://chrisjwelly.github.io/blog/2021/08/03/binary-searching-bugs-with-git-bisect/linearsearch.png">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://chrisjwelly.github.io/blog/assets/images/profile-picture.jpeg"/>
+    
+    
+    
+    
+    <!--STYLES-->
+    
+<link rel="stylesheet" href="/blog/assets/css/style-mcowxfpmhyoagcuj9zu8qmoc6icy8y5y6w5j3sojl9kasrjo6ctbovvzpmv9.min.css">
+
+    <!--STYLES END-->
+    
+
+    
+
+    
+        
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a
+            class="header-title-link"
+            href="/blog/"
+            aria-label=""
+        >
+            Christian&#39;s blog
+        </a>
+    </div>
+    
+        
+            <a
+                class="header-right-picture "
+                href="#about"
+                aria-label="Open the link: /blog/#about"
+            >
+        
+        
+            <img class="header-picture" src="/blog/assets/images/profile-picture.jpeg" alt="Author&#39;s picture"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="4">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a
+                    href="/blog/#about"
+                    aria-label="Read more about the author"
+                >
+                    <img class="sidebar-profile-picture" src="/blog/assets/images/profile-picture.jpeg" alt="Author&#39;s picture"/>
+                </a>
+                <h4 class="sidebar-profile-name">Christian James Welly</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>A computer science undergraduate at National University of Singapore</p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/blog/"
+                            
+                            rel="noopener"
+                            title="Home"
+                        >
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Home</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/blog/all-categories"
+                            
+                            rel="noopener"
+                            title="Categories"
+                        >
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Categories</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/blog/all-tags"
+                            
+                            rel="noopener"
+                            title="Tags"
+                        >
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Tags</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/blog/all-archives"
+                            
+                            rel="noopener"
+                            title="Archives"
+                        >
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Archives</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="#about"
+                            
+                            rel="noopener"
+                            title="About"
+                        >
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">About</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="https://github.com/chrisjwelly"
+                            
+                                target="_blank"
+                            
+                            rel="noopener"
+                            title="GitHub"
+                        >
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="https://www.linkedin.com/in/chrisjwelly"
+                            
+                                target="_blank"
+                            
+                            rel="noopener"
+                            title="LinkedIn"
+                        >
+                        <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">LinkedIn</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/blog/atom.xml"
+                            
+                            rel="noopener"
+                            title="RSS"
+                        >
+                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="4"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            Binary Searching bugs with Git Bisect
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2021-08-03T15:03:28+08:00">
+	
+		    03 Aug 2021
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/blog/categories/Tech/">Tech</a>
+
+
+    
+    
+        -
+        
+            13 mins to read
+        
+        
+    
+</div>
+
+    
+</div>
+
+    
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <h1 id="table-of-contents">Table of Contents</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Introduction"><span class="toc-text">Introduction</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Theory"><span class="toc-text">Theory</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Linear-Search"><span class="toc-text">Linear Search</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Binary-Search"><span class="toc-text">Binary Search</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Using-this-concept-in-Git"><span class="toc-text">Using this concept in Git</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Demo-with-Git-Bisect"><span class="toc-text">Demo with Git Bisect</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Video-Demo"><span class="toc-text">Video Demo</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Textual-Instructions"><span class="toc-text">Textual Instructions</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Further-Discussions"><span class="toc-text">Further Discussions</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Alternatives-in-the-demo"><span class="toc-text">Alternatives in the demo</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Modular-commits"><span class="toc-text">Modular commits</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Prevention-is-better-than-cure"><span class="toc-text">Prevention is better than cure</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Automated-Git-Bisect"><span class="toc-text">Automated Git Bisect</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Assumptions-about-presence-of-the-bug"><span class="toc-text">Assumptions about presence of the bug</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Try-an-implementation-for-further-understanding"><span class="toc-text">Try an implementation for further understanding</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Summary"><span class="toc-text">Summary</span></a></li></ol>
+<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>The time is 7PM. Your software project is due at 11:59PM. You have yet to write the developer guide to document your software which is part of the submission. You are writing a testing plan which also serves as a guide for your graders to assess your software. As you were writing the steps to test, you discovered a regression. This feature that was working just 3 hours ago is now causing the application to crash! What happened? What would you do?</p>
+<p>I was in this exact situation recently for a school project. I had to decide whether it was worth identifying this bug and writing a patch for it (and potentially breaking other features for whatever reason it might be), or whether I should continue with the rest of the submission documents. I panicked really hard. In that moment of desperation, from a deep region in my memory, I suddenly recalled: <code>git bisect</code>.</p>
+<p>I had known the principle of <code>git bisect</code> – it essentially performs a binary search for the first commit which caused a particular bug. It was going to be the first time I was using it. I quickly looked up tutorials and documentation online. 10 minutes later, I found the commit which caused the bug. Quickly patched it up (whether there were further bugs is another story altogether), and went back to writing my other submission documents.</p>
+<p>In that one usage, <code>git bisect</code> easily became my favourite git command. In this post, I hope to provide a simple use case and guide to use <code>git bisect</code>, while demonstrating how fast it can help you identify the violating commit.</p>
+<p>A basic understanding of data structures and algorithms (array/linked lists and linear/binary search) and git (e.g. committing, checking-out commits) is preferred, but I think the concepts are intuitive enough and I will try to make it as accessible as I can.</p>
+<a id="more"></a>
+<h2 id="Theory"><a href="#Theory" class="headerlink" title="Theory"></a>Theory</h2><p>Let us recall the concept of linear and binary search in the context of an array.</p>
+<h3 id="Linear-Search"><a href="#Linear-Search" class="headerlink" title="Linear Search"></a>Linear Search</h3><p>The strategy is pretty simple - you will look up the element that you want in the array one-by-one:</p>
+<img src="/blog/2021/08/03/binary-searching-bugs-with-git-bisect/linearsearch.png" class="" title="Linear Search visualisation">
+
+<h3 id="Binary-Search"><a href="#Binary-Search" class="headerlink" title="Binary Search"></a>Binary Search</h3><p>Algorithm classes in school would usually teach the concept of binary search in the context of a sorted array. The idea is as follows:</p>
+<ol>
+<li>Look at the “middle” element and make a comparison.</li>
+<li>If that “middle” element is exactly the one you are looking for, return <code>true</code> (or its index). If what you are searching for is bigger than the middle element, discard ALL the values smaller than that element including itself<sup>1</sup> and vice versa. </li>
+<li>Repeat this process until you have found the desired element or have no elements left.</li>
+</ol>
+<p>The following diagram shows a binary search in action:</p>
+<img src="/blog/2021/08/03/binary-searching-bugs-with-git-bisect/binarysearch.png" class="" title="Binary Search visualisation">
+
+<p>The time complexity of a binary search is O(log(n)), where n is the number of elements in the array. This is way faster (exponentially faster, to be precise) than a linear search which takes time complexity O(n).</p>
+<p>For reference, log<sub>2</sub>(1024) = 10 and log<sub>2</sub>(2048) = 11. This can be interpreted as it takes around 10 and 11 times of this “comparing with middle element” procedure described above if we are given an array of 1024 and 2048 respectively, before binary search terminates. In a linear search, we will need to do around 1024 and 2048 element-by-element inspections respectively.</p>
+<p>I would like to note that binary search is a concept that is not just applicable to a sorted array. It is also applicable in the context of a monotonic function f(x) - where as x increases, f(x) will either stay the same or increase (correspondingly, decrease). Binary search is typically used to find the smallest (or largest) value satisfying some condition in a monotonic function. </p>
+<p>It can also be used to find the “leftmost” value. In the case of binary searching on a sorted array, this can be thought of having duplicate elements and you are finding the “leftmost” value among duplicates of that value. This is precisely the concept of <code>git bisect</code> which I will introduce in a bit.</p>
+<h2 id="Using-this-concept-in-Git"><a href="#Using-this-concept-in-Git" class="headerlink" title="Using this concept in Git"></a>Using this concept in Git</h2><p>In this post, let us concern ourselves with only regular commits, and not discuss merge commits. In this scenario, a commit history is essentially a linked list<sup>2</sup> of commits as one can see here:</p>
+<img src="/blog/2021/08/03/binary-searching-bugs-with-git-bisect/gitcommits.png" class="" title="Visualisation of git commits">
+
+<p>Thus, when presented with the scenario in the introduction, it might be natural for you to perform a linear search on the commit history. That is, you do a <code>git checkout &lt;commit hash&gt;</code> one-by-one down the history, until you encounter a commit where the bug does not occur. The previous commit is then the first occurrence of the bug. Of course, if you have your suspicions on which commit causes the bug, you can avoid doing a linear search entirely and just checkout there. But in this context, let’s suppose we have absolutely no idea what happened!</p>
+<p><code>git bisect</code> takes this concept in a binary search<sup>3</sup> setting:</p>
+<ol>
+<li>It will ask you to give a range. Give it a commit where the bug has occurred, and another commit where the bug has not occurred.</li>
+<li>It will perform a binary search by performing a <code>checkout</code> on the middle commit of the range, asking your feedback whether it was a good or bad commit.</li>
+<li>It will then halve the range appropriately, until it pinpoints the exact commit where the bug first occurred.</li>
+</ol>
+<p>Here is a rough visualisation, think of <code>mid</code> as the position that Git automatically checks-out to for you:</p>
+<img src="/blog/2021/08/03/binary-searching-bugs-with-git-bisect/gitbisect.png" class="" title="Visualisation of git bisect">
+
+<p>Going back to our theory, you can think of the good commits as having the value of “0”, and bad commits as having the value of “1”. Thus, it is like we are having an array of “0”s followed by “1”s, and we are searching for the “leftmost” 1 (which is the first bad commit).</p>
+<h2 id="Demo-with-Git-Bisect"><a href="#Demo-with-Git-Bisect" class="headerlink" title="Demo with Git Bisect"></a>Demo with Git Bisect</h2><p>For now, enough theory. To illustrate the power of Git Bisect and how fast it can sift through the commit history, I have prepared this repository: <a target="_blank" rel="noopener" href="https://github.com/chrisjwelly/git-bisect-demo">https://github.com/chrisjwelly/git-bisect-demo</a> for a demo. What I have is very simple:</p>
+<ul>
+<li>A commit history of around 1024 commits</li>
+<li>Two files: <code>good.txt</code> and <code>bad.txt</code></li>
+</ul>
+<p>Let us pretend that <code>bad.txt</code> is a bug that was introduced in the middle of development. We want to find the commit that first introduced this <code>bad.txt</code> file using <code>git bisect</code>.</p>
+<p>(Now, I am aware that there are easier ways than <code>git bisect</code> to identify this commit in this particular example, I prepared the example in this way in order to deliver the essence of this command: finding the commit where the bug was first introduced fast.)</p>
+<h3 id="Video-Demo"><a href="#Video-Demo" class="headerlink" title="Video Demo"></a>Video Demo</h3><p>For those who prefer looking at me trying to blaze through the commits, I recorded a video here:</p>
+<div class="video-container"><iframe src="https://www.youtube.com/embed/mxFCW5OX4ig" frameborder="0" loading="lazy" allowfullscreen></iframe></div>
+
+<h3 id="Textual-Instructions"><a href="#Textual-Instructions" class="headerlink" title="Textual Instructions"></a>Textual Instructions</h3><p>For readers who prefer just reading, these are the steps to do it:</p>
+<ol>
+<li><code>git bisect start</code> will initiate the Git Bisect wizard. It might not look like anything happened, but if you type <code>git status</code>, it will show that you are currently bisecting</li>
+<li><code>git bisect bad</code> to mark the current commit as bad</li>
+<li><code>git log --oneline</code> and take the commit hash of the commit where the bug has not been introduced yet (finding a good commit)</li>
+<li><code>git bisect good &lt;commit hash&gt;</code> to mark that commit as a good commit</li>
+<li>Depending on whether the current one is good or bad, type <code>git bisect good</code>, else <code>git bisect bad</code></li>
+<li>Repeat the procedure, deciding whether the commit is good or bad…</li>
+<li>Until you finally identified the first bad commit!</li>
+<li><code>git bisect reset</code> in order to exit the wizard</li>
+</ol>
+<p>We see how with a repository of 1000 commits, we managed to identify the violating bug in just around 10 steps! Of course realistically, you probably will not have to examine a range of 1000 commits to spot a bug. When I used it for my project, I had to examine at most around 30 commits which amounts to around 5 steps. But it gives an indication of how powerful the command is; you don’t have to worry about having a lot of commits because <code>git bisect</code> can go through it in very little time.</p>
+<h2 id="Further-Discussions"><a href="#Further-Discussions" class="headerlink" title="Further Discussions"></a>Further Discussions</h2><h3 id="Alternatives-in-the-demo"><a href="#Alternatives-in-the-demo" class="headerlink" title="Alternatives in the demo"></a>Alternatives in the demo</h3><p>As mentioned earlier, in the example repository I gave, one can easily find the commit by simply checking when the file was introduced. Moreover, if you want to find out who made the change, one can also do a <code>git blame</code>.</p>
+<p>However, <code>git bisect</code> is different. Consider a case like in the introduction section, when you discover regressions in the application. You have no idea which file or line of code caused it. You don’t even know what change caused it. All you know is that at some point in the past, this feature was working and now it isn’t. With <code>git bisect</code>, you can identify this first commit where the bug occurred, and also examine what changes were made in this commit.</p>
+<h3 id="Modular-commits"><a href="#Modular-commits" class="headerlink" title="Modular commits"></a>Modular commits</h3><p>This <code>git bisect</code> command works best if your commit is modular. That is, you don’t make tonnes of changes in a single commit. Each commit is relatively small and clear in what changes it introduces. I personally prefer committing regularly, and I was very grateful that I did, allowing me to run <code>git bisect</code> on my repository to identify the commit that caused the regression.</p>
+<h3 id="Prevention-is-better-than-cure"><a href="#Prevention-is-better-than-cure" class="headerlink" title="Prevention is better than cure"></a>Prevention is better than cure</h3><p>You might also want to adopt test-driven development or just write tests in general to prevent regressions. With a test suite set up, you will ensure that you don’t introduce bugs inadvertently. In my case however, the feature was rather difficult to test since it was a game (and frankly speaking, I had no time to write tests given the tight deadline of the project). </p>
+<h3 id="Automated-Git-Bisect"><a href="#Automated-Git-Bisect" class="headerlink" title="Automated Git Bisect"></a>Automated Git Bisect</h3><p>The process of entering <code>git bisect good</code> and <code>git bisect bad</code> for each <code>checkout</code> can be very tedious. To automate this, there exists a <code>git bisect run &lt;script&gt;</code> feature, which runs a script in order decide whether the current revision is a bad or good commit. I will not be discussing this method in this post (partially because I haven’t used it myself), but I may be in the future!</p>
+<h3 id="Assumptions-about-presence-of-the-bug"><a href="#Assumptions-about-presence-of-the-bug" class="headerlink" title="Assumptions about presence of the bug"></a>Assumptions about presence of the bug</h3><p>An assumption we are implicitly making is that once the bug appears, it stays all the time (before you squash it, of course). That is, we don’t want a scenario when the commit has an irregular history of: good -&gt; bad -&gt; good -&gt; bad. </p>
+<p>In our discussion earlier, visualising the good and bad commits as “0”s and “1”s respectively, what we want is to have an array of “0”s followed by “1”s. We do not want to make it such that another “0” appear right after the consecutive “1”s, making the value not monotonically increasing anymore. In simpler terms, we don’t want to end up with an unsorted array, since we know that we are not able to run a binary search on an unsorted array.</p>
+<h3 id="Try-an-implementation-for-further-understanding"><a href="#Try-an-implementation-for-further-understanding" class="headerlink" title="Try an implementation for further understanding"></a>Try an implementation for further understanding</h3><p>A similar problem on Leetcode is available if you’d like to try an implementation yourself - <a target="_blank" rel="noopener" href="https://leetcode.com/problems/first-bad-version/">https://leetcode.com/problems/first-bad-version/</a>. Here, you can think of as the function given to you is the user inputting whether a commit is good or bad, and you are implementing the Git logic to halve the search range appropriately.</p>
+<h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h2><p>To summarise, here are the important steps that you need to do:</p>
+<ol>
+<li><code>git bisect start</code> to start the wizard</li>
+<li><code>git bisect bad &lt;commit hash&gt;</code> to first show where there is the bug</li>
+<li><code>git bisect good &lt;commit hash&gt;</code> to tell the wizard where the commit without a bug is</li>
+<li>Keep typing <code>git bisect good</code> or <code>git bisect bad</code> depending on what the current commit is</li>
+<li><code>git bisect reset</code> after you have identified the bad commit</li>
+</ol>
+<p>That story in the introduction wasn’t the only time I actually used <code>git bisect</code>. I have used this command at least 4 times throughout a single software engineering module.</p>
+<p>For those of you who just discovered this command, I hope I managed to convince or at least give an idea of what <code>git bisect</code> can do. Perhaps you will find an opportunity to utilise it one day! (Although, I hope that you don’t have to do it because a bug was introduced)</p>
+<p>For further reading, please refer to the Git Bisect documentation: <a target="_blank" rel="noopener" href="https://git-scm.com/docs/git-bisect">https://git-scm.com/docs/git-bisect</a></p>
+<hr>
+<sup>1</sup> There are different implementations. Some implementations discard values strictly smaller than the middle element. But it is more important to get the general idea here
+<br>
+<sup>2</sup> It is more accurate to think of commit history as a directed graph, especially when we consider merge commits. 
+<br>
+<sup>3</sup> The astute reader might be thinking at this point: "But you can't binary search on a linked list! How can this be allowed!". I must admit that you have a point. This is something that I am trying to research as well with not much luck. For now, I would believe that Git has provided the necessary infrastructure in their implementation to make a binary search possible. Should I find anything, I would update this blog!
+<hr>
+            
+
+
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-none-link" href="/blog/tags/algorithms/" rel="tag">algorithms</a> <a class="tag tag--primary tag--small t-none-link" href="/blog/tags/binary-search/" rel="tag">binary search</a> <a class="tag tag--primary tag--small t-none-link" href="/blog/tags/git/" rel="tag">git</a> <a class="tag tag--primary tag--small t-none-link" href="/blog/tags/programming/" rel="tag">programming</a> <a class="tag tag--primary tag--small t-none-link" href="/blog/tags/software-engineering/" rel="tag">software engineering</a>
+
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/blog/2022/01/05/Career-Progression-CS3230-TA/"
+                    data-tooltip="Career Progression: CS3230 TA"
+                    aria-label="PREVIOUS: Career Progression: CS3230 TA"
+                >
+                    
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                    </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/blog/2020/08/08/The-CS2040S-teaching-experience/"
+                    data-tooltip="The CS2040S teaching experience"
+                    aria-label="NEXT: The CS2040S teaching experience"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Share this post"
+            >
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://chrisjwelly.github.io/blog/2021/08/03/binary-searching-bugs-with-git-bisect/"
+                    title="Share on Facebook"
+                    aria-label="Share on Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://chrisjwelly.github.io/blog/2021/08/03/binary-searching-bugs-with-git-bisect/"
+                    title="Share on Twitter"
+                    aria-label="Share on Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://plus.google.com/share?url=https://chrisjwelly.github.io/blog/2021/08/03/binary-searching-bugs-with-git-bisect/"
+                    title="Share on Google+"
+                    aria-label="Share on Google+"
+                >
+                    <i class="fab fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a
+                        class="post-action-btn btn btn--default"
+                        href="#disqus_thread"
+                        aria-label="Leave a comment"
+                    >
+                        <i class="fa fa-comment"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#table-of-contents" aria-label="Table of Contents">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2022 Christian James Welly. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/blog/2022/01/05/Career-Progression-CS3230-TA/"
+                    data-tooltip="Career Progression: CS3230 TA"
+                    aria-label="PREVIOUS: Career Progression: CS3230 TA"
+                >
+                    
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                    </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/blog/2020/08/08/The-CS2040S-teaching-experience/"
+                    data-tooltip="The CS2040S teaching experience"
+                    aria-label="NEXT: The CS2040S teaching experience"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Share this post"
+            >
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://chrisjwelly.github.io/blog/2021/08/03/binary-searching-bugs-with-git-bisect/"
+                    title="Share on Facebook"
+                    aria-label="Share on Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://chrisjwelly.github.io/blog/2021/08/03/binary-searching-bugs-with-git-bisect/"
+                    title="Share on Twitter"
+                    aria-label="Share on Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://plus.google.com/share?url=https://chrisjwelly.github.io/blog/2021/08/03/binary-searching-bugs-with-git-bisect/"
+                    title="Share on Google+"
+                    aria-label="Share on Google+"
+                >
+                    <i class="fab fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a
+                        class="post-action-btn btn btn--default"
+                        href="#disqus_thread"
+                        aria-label="Leave a comment"
+                    >
+                        <i class="fa fa-comment"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#table-of-contents" aria-label="Table of Contents">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                
+    <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+        <i id="btn-close-shareoptions" class="fa fa-times"></i>
+        <ul class="share-options">
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://www.facebook.com/sharer/sharer.php?u=https://chrisjwelly.github.io/blog/2021/08/03/binary-searching-bugs-with-git-bisect/"
+                        aria-label="Share on Facebook"
+                    >
+                        <i class="fab fa-facebook" aria-hidden="true"></i><span>Share on Facebook</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://twitter.com/intent/tweet?text=https://chrisjwelly.github.io/blog/2021/08/03/binary-searching-bugs-with-git-bisect/"
+                        aria-label="Share on Twitter"
+                    >
+                        <i class="fab fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://plus.google.com/share?url=https://chrisjwelly.github.io/blog/2021/08/03/binary-searching-bugs-with-git-bisect/"
+                        aria-label="Share on Google+"
+                    >
+                        <i class="fab fa-google-plus" aria-hidden="true"></i><span>Share on Google+</span>
+                    </a>
+                </li>
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-times"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/blog/assets/images/profile-picture.jpeg" alt="Author&#39;s picture"/>
+        
+            <h4 id="about-card-name">Christian James Welly</h4>
+        
+            <div id="about-card-bio"><p>A computer science undergraduate at National University of Singapore</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>Student</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker-alt"></i>
+                <br/>
+                Singapore
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/blog/assets/images/cover-v1.2.0.jpg');"></div>
+        <!--SCRIPTS-->
+
+<script src="/blog/assets/js/script-kbbngbfuhetpghmdujhzkaznnsmfhqqn8owm4lfwklkrbk8w5zugagfacrq8.min.js"></script>
+
+<!--SCRIPTS END-->
+
+
+    
+        <script>
+          var disqus_config = function() {
+            this.page.url = 'https://chrisjwelly.github.io/blog/2021/08/03/binary-searching-bugs-with-git-bisect/';
+              
+            this.page.identifier = '2021/08/03/binary-searching-bugs-with-git-bisect/';
+              
+          };
+          (function() {
+            var d = document, s = d.createElement('script');
+            var disqus_shortname = 'chrisjwelly';
+            s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+          })();
+        </script>
+    
+
+
+
+
+    </body>
+</html>

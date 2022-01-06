@@ -1,0 +1,507 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Christian&#39;s blog">
+    <title>Tag: algorithms - Christian&#39;s blog</title>
+    <meta name="author" content="Christian James Welly">
+    
+        <meta name="keywords" content="hexo,javascript,">
+    
+    
+    
+        
+            <link rel="alternate" type="application/atom+xml" title="RSS" href="/blog/atom.xml">
+        
+    
+    <script type="application/ld+json">{}</script>
+    <meta property="og:type" content="blog">
+<meta property="og:title" content="Christian&#39;s blog">
+<meta property="og:url" content="https://chrisjwelly.github.io/blog/tags/algorithms/index.html">
+<meta property="og:site_name" content="Christian&#39;s blog">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="Christian James Welly">
+<meta property="article:tag" content="hexo">
+<meta property="article:tag" content="javascript">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://chrisjwelly.github.io/blog/assets/images/profile-picture.jpeg"/>
+    
+    
+    
+    
+    <!--STYLES-->
+    
+<link rel="stylesheet" href="/blog/assets/css/style-mcowxfpmhyoagcuj9zu8qmoc6icy8y5y6w5j3sojl9kasrjo6ctbovvzpmv9.min.css">
+
+    <!--STYLES END-->
+    
+
+    
+
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="1">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a
+            class="header-title-link"
+            href="/blog/"
+            aria-label=""
+        >
+            Christian&#39;s blog
+        </a>
+    </div>
+    
+        
+            <a
+                class="header-right-picture "
+                href="#about"
+                aria-label="Open the link: /blog/#about"
+            >
+        
+        
+            <img class="header-picture" src="/blog/assets/images/profile-picture.jpeg" alt="Author&#39;s picture"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="1">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a
+                    href="/blog/#about"
+                    aria-label="Read more about the author"
+                >
+                    <img class="sidebar-profile-picture" src="/blog/assets/images/profile-picture.jpeg" alt="Author&#39;s picture"/>
+                </a>
+                <h4 class="sidebar-profile-name">Christian James Welly</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>A computer science undergraduate at National University of Singapore</p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/blog/"
+                            
+                            rel="noopener"
+                            title="Home"
+                        >
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Home</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/blog/all-categories"
+                            
+                            rel="noopener"
+                            title="Categories"
+                        >
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Categories</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/blog/all-tags"
+                            
+                            rel="noopener"
+                            title="Tags"
+                        >
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Tags</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/blog/all-archives"
+                            
+                            rel="noopener"
+                            title="Archives"
+                        >
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Archives</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="#about"
+                            
+                            rel="noopener"
+                            title="About"
+                        >
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">About</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="https://github.com/chrisjwelly"
+                            
+                                target="_blank"
+                            
+                            rel="noopener"
+                            title="GitHub"
+                        >
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="https://www.linkedin.com/in/chrisjwelly"
+                            
+                                target="_blank"
+                            
+                            rel="noopener"
+                            title="LinkedIn"
+                        >
+                        <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">LinkedIn</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/blog/atom.xml"
+                            
+                            rel="noopener"
+                            title="RSS"
+                        >
+                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="1"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+    <section class="postShorten-group main-content-wrap">
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a
+                            class="link-unstyled"
+                            href="/blog/2022/01/05/Career-Progression-CS3230-TA/"
+                            aria-label=": Career Progression: CS3230 TA"
+                        >
+                            Career Progression: CS3230 TA
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2022-01-05T21:10:21+08:00">
+	
+		    05 Jan 2022
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/blog/categories/University/">University</a>
+
+
+    
+    
+        -
+        
+            18 mins to read
+        
+        
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <!--toc-->
+<h2 id="Introduction-and-Motivation"><a href="#Introduction-and-Motivation" class="headerlink" title="Introduction and Motivation"></a>Introduction and Motivation</h2><p>Around 1.5 years ago, when I was <a href="https://chrisjwelly.github.io/blog/2020/08/08/The-CS2040S-teaching-experience/">teaching CS2040S</a>, I once joked with my students that since I taught CS1101S and CS2040S, a natural career progression would be to teach CS3230 next. I truly meant it as a joke, but little did I know back then that I would eventually go on to do it.</p>
+<p><a target="_blank" rel="noopener" href="https://nusmods.com/modules/CS3230/design-and-analysis-of-algorithms">CS3230 Design and Analysis of Algorithms</a> was taught by Prof Arnab Bhattacharrya in the recent semester (AY21/22 Sem 1). The module is part of the graduation requirements for computer science majors, and I believe computer engineering majors have the option to take this module to fulfill their requirements. It builds on CS2040S, providing more advanced tools and techniques to design (divide &amp; conquer, greedy, dynamic programming) and analyse (amortisation, randomised analysis) algorithms. Theoretical content such as the famous “P vs NP” problem is also briefly touched upon.</p>
+<p>I was initially not even thinking of teaching the module. How it came to be was that my previous CS3230 tutor was offered by Prof Arnab to teach, but he could not due to his commitments. My tutor then asked if I would be willing to teach in his place. I happened to have sat in Prof Arnab’s other classes before, and felt like I could be confident in the quality of his teaching (which was a complaint for other instructors in previous semesters). Moreover, I also have gained confidence in my own abilities over the semesters. Lack of confidence was one of the reasons I had not taken it up sooner. The final reason was because in the same semester, I was going to take CS5234 Algorithms at Scale. I thought CS3230 would be a good way for me to revise my fundamentals as well. A little fun fact is that when I taught CS1101S, I took CS2040S. When I taught CS2040S, I took CS3230. Then when I taught CS3230, I took CS5234. It’s almost as if I taught things in order to solidify my fundamentals in the same semester. All things considered, I decided that it would be a good time and opportunity for me to take up the role.</p>
+                    
+                        <a
+                            href="/blog/2022/01/05/Career-Progression-CS3230-TA/"
+                            class="postShorten-excerpt_link link"
+                            aria-label=": Career Progression: CS3230 TA"
+                        >
+                            Continue reading
+                        </a>
+                        
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a
+                            class="link-unstyled"
+                            href="/blog/2021/08/03/binary-searching-bugs-with-git-bisect/"
+                            aria-label=": Binary Searching bugs with Git Bisect"
+                        >
+                            Binary Searching bugs with Git Bisect
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2021-08-03T15:03:28+08:00">
+	
+		    03 Aug 2021
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/blog/categories/Tech/">Tech</a>
+
+
+    
+    
+        -
+        
+            13 mins to read
+        
+        
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <!--toc-->
+<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>The time is 7PM. Your software project is due at 11:59PM. You have yet to write the developer guide to document your software which is part of the submission. You are writing a testing plan which also serves as a guide for your graders to assess your software. As you were writing the steps to test, you discovered a regression. This feature that was working just 3 hours ago is now causing the application to crash! What happened? What would you do?</p>
+<p>I was in this exact situation recently for a school project. I had to decide whether it was worth identifying this bug and writing a patch for it (and potentially breaking other features for whatever reason it might be), or whether I should continue with the rest of the submission documents. I panicked really hard. In that moment of desperation, from a deep region in my memory, I suddenly recalled: <code>git bisect</code>.</p>
+<p>I had known the principle of <code>git bisect</code> – it essentially performs a binary search for the first commit which caused a particular bug. It was going to be the first time I was using it. I quickly looked up tutorials and documentation online. 10 minutes later, I found the commit which caused the bug. Quickly patched it up (whether there were further bugs is another story altogether), and went back to writing my other submission documents.</p>
+<p>In that one usage, <code>git bisect</code> easily became my favourite git command. In this post, I hope to provide a simple use case and guide to use <code>git bisect</code>, while demonstrating how fast it can help you identify the violating commit.</p>
+<p>A basic understanding of data structures and algorithms (array/linked lists and linear/binary search) and git (e.g. committing, checking-out commits) is preferred, but I think the concepts are intuitive enough and I will try to make it as accessible as I can.</p>
+                    
+                        <a
+                            href="/blog/2021/08/03/binary-searching-bugs-with-git-bisect/"
+                            class="postShorten-excerpt_link link"
+                            aria-label=": Binary Searching bugs with Git Bisect"
+                        >
+                            Continue reading
+                        </a>
+                        
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a
+                            class="link-unstyled"
+                            href="/blog/2020/08/08/The-CS2040S-teaching-experience/"
+                            aria-label=": The CS2040S teaching experience"
+                        >
+                            The CS2040S teaching experience
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2020-08-08T17:41:24+08:00">
+	
+		    08 Aug 2020
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/blog/categories/University/">University</a>
+
+
+    
+    
+        -
+        
+            34 mins to read
+        
+        
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <!--toc-->
+<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>This is a reflection that is quite overdue! I was a little busy throughout the May-July vacation period, and could only find time to update my blog now. Better late than never, I suppose! Just a warning though, there is a lot of text, and almost no pictures in this post.</p>
+<p><a target="_blank" rel="noopener" href="https://nusmods.com/modules/CS2040S/data-structures-and-algorithms">CS2040S</a> is NUS’ Data Structures and Algorithms course. Originally, there were only two variants of the module, CS2040 and CS2040C. The CS2040S variant is introduced this recent academic year (AY19/20) as a means for module management of the growing computing cohort (or so I heard). More specifically, it is compulsory for Computer Science undergraduates matriculating in AY19/20 to take this variant of the module. The module uses Java for the problem sets, but written exams allow usage of pseudocode.</p>
+<p>This recent semester (AY19/20 Semester 2), the module is taught under Prof Seth Gilbert, Prof Ben Leong, and Prof Soo Yuen Jien (also known as Uncle Soo). Prof Seth does the main delivery of content, while Prof Ben and Uncle Soo handle the administrative matters of the module. The module does not always have the same lecturer(s). When I was taking the module in AY19/20 Sem 1, it was taught under Prof Harold Soh. Future semesters might also be different.</p>
+<p>I was a teaching assistant (TA) who taught a weekly 2-hour tutorial (discussion group) sessions of 12 students. I’ll write about my experience in this blog, while making some comparisons with my experience teaching CS1101S in the previous semester. Take note that this post is not meant to be a review of the module.</p>
+                    
+                        <a
+                            href="/blog/2020/08/08/The-CS2040S-teaching-experience/"
+                            class="postShorten-excerpt_link link"
+                            aria-label=": The CS2040S teaching experience"
+                        >
+                            Continue reading
+                        </a>
+                        
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    <div class="pagination-bar">
+    <ul class="pagination">
+        
+        
+        <li class="pagination-number">page 1 of 1</li>
+    </ul>
+</div>
+
+</section>
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2022 Christian James Welly. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-times"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/blog/assets/images/profile-picture.jpeg" alt="Author&#39;s picture"/>
+        
+            <h4 id="about-card-name">Christian James Welly</h4>
+        
+            <div id="about-card-bio"><p>A computer science undergraduate at National University of Singapore</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>Student</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker-alt"></i>
+                <br/>
+                Singapore
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/blog/assets/images/cover-v1.2.0.jpg');"></div>
+        <!--SCRIPTS-->
+
+<script src="/blog/assets/js/script-kbbngbfuhetpghmdujhzkaznnsmfhqqn8owm4lfwklkrbk8w5zugagfacrq8.min.js"></script>
+
+<!--SCRIPTS END-->
+
+
+
+
+
+    </body>
+</html>

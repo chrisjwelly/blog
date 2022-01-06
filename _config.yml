@@ -98,7 +98,7 @@ theme: tranquilpeak
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: https://github.com/chrisjwelly/blog.git
+  repo: git@github.com:chrisjwelly/blog.git
   branch: gh-pages
   message: Update blog at {{ now('DD-MM-YYYY HH:mm:ss') }}
 

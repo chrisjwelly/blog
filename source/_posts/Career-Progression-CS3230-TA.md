@@ -68,7 +68,7 @@ Since tutorials are also online and I get less chance to interact with the stude
 A lot of things went relatively well, but much can be improved on. As for a personal reflection, I typically always either end on time, or overrun my classes. This is a consequence of having a detailed recap session, and attempting to go through the questions in more detail. Fortunately, the session is recorded so I could use it as a guarantee that students are not missing out. Punctuality is something I will try to work on in the future, and honestly I had expected this to be raised up in my teaching feedback. Surprisingly, no one raised it up. I am unsure as to what it might suggest -- are students okay with me overrunning it a bit? Or perhaps they simply do not mind?
 
 ### Miscellaneous materials
-I also prepared some miscellaneous materials. One thing I did was to prepare a math prerequisite revision material. I understood that many of the students might have forgotten some of the discrete mathematics and algorithms that they learnt as a first-year undergraduate, so I decided to take the initiative to prepare the material accompanied by a video recording. I would think that the video was quite well-received. At the time of writing, it has 576 views and 37 likes. Pretty decent numbers, I think.
+I also prepared some miscellaneous materials. One thing I did was to prepare a math prerequisite revision material. I understood that many of the students might have forgotten some of the discrete mathematics and algorithms that they learnt as a first-year undergraduate, so I decided to take the initiative to prepare the material accompanied by a video recording. I would think that the [video](https://youtu.be/RdAAknALqjs) was quite well-received. At the time of writing, it has 576 views and 37 likes. Pretty decent numbers, I think.
 
 I also prepared additional material to go through content related to indicator random variables. It is a tool that is used to analyse randomised algorithms, and I notice that it can follow a rather fixed pattern. 
 
@@ -88,11 +88,11 @@ Again, another nice thing about conducting all these online is that I could reco
 ## Conclusion
 Overall, I enjoyed being a CS3230 TA this recent semester. Doing CS3230 preparation work is actually like therapy for me when I am too lazy to do work that I am supposed to do, like my own modules. Oops. I suppose it is as such because I know what I should be doing in CS3230, it is just a lot of work. Whereas my own module is where I learn new things and had to struggle a bit more.
 
-I personally do think that CS3230 is not an easy module. It requires more-than-average mathematical maturity, and I do try my best to make the content as accessible as possible. I received some thank-you emails from people not even from my class and these are little things that motivate me to keep moving forward! Nothing makes me happier to hear that people are benefitting from the effort I put in to deliver the content.
+I personally do think that CS3230 is not an easy module. It requires more-than-average mathematical maturity, and I do try my best to make the content as accessible as possible. I received some thank-you emails from people not even from my class and these are little things that motivate me to keep moving forward! Nothing makes me happier than to hear that people are benefitting from the effort I put in to deliver the content.
 
 {% asset_img thank-you-email.png "A thank-you email by a student" %}
 
-Of course, I have to thank my own students as well! Thank you for patiently bearing with my teachings. I think I received pretty good feedback from them, but I will continue thinking of ways to improve! We took a class photo over zoom on our final tutorial! Funnily enough, it was the first time I saw some of them, hahaha
+Of course, I have to thank my own students as well! Thank you for patiently bearing with my teachings. I think I received pretty good feedback from them, but I will continue thinking of ways to improve! We took a class photo over Zoom on our final tutorial! Funnily enough, it was the first time I saw some of them, hahaha
 
 {% asset_img cs3230-tut07-ay2122s1.jpg "CS3230 AY21/22 S1 (Tut 07)" %}
 
